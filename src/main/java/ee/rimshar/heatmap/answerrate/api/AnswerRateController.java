@@ -1,6 +1,8 @@
 package ee.rimshar.heatmap.answerrate.api;
 
 import ee.rimshar.heatmap.answerrate.AnswerRateService;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +24,9 @@ public class AnswerRateController {
   @GetMapping
   public List<AnswerRate> getAnswerRateData(
       @RequestParam @NonNull String dateInput,
-      @RequestParam @NonNull Integer numberOfShades,
-      @RequestParam(required = false) Integer startHour,
-      @RequestParam(required = false) Integer endHour
+      @RequestParam @NonNull @Min(3) @Max(10) Integer numberOfShades,
+      @RequestParam(required = false, defaultValue = "0") Integer startHour,
+      @RequestParam(required = false, defaultValue = "23") Integer endHour
   ) {
     return service.getAnswerRateData(
         dateInput,
