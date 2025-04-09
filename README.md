@@ -9,7 +9,7 @@ This application exposes an endpoint providing answer rate info based on call lo
 ## Running instructions
 Copy the project locally and run `./gradlew bootRun` in the command line to start the application.
 
-The application has an in-built database that contains 300 entries from the period of 04-04-2025 to 07-04-2027.
+The application has an in-built database that contains 900 entries from the period of 04-04-2025 to 07-04-2027.
 
 The application is secured via HTTP Basic Authentication. Use the pre-configured user `test_user / superMegaSecurePassword`
 
@@ -21,10 +21,10 @@ Returns hourly call statistics for a given date and time range, formatted for us
 
 | Parameter        | Type      | Required | Description                                                                 |
 |------------------|-----------|----------|-----------------------------------------------------------------------------|
-| `dateInput`      | `String`  | ✅        | Target date in `YYYY-MM-DD` format.                                        |
-| `numberOfShades` | `Integer` | ✅        | Number of heatmap shades (minimum **3**, maximum **10**).                  |
-| `startHour`      | `Integer` | ❌        | Start hour for the range (0–23). Defaults to `0` if omitted.               |
-| `endHour`        | `Integer` | ❌        | End hour for the range (0–23, must be ≥ `startHour`). Defaults to `23`.    |
+| `dateInput`      | `String`  | yes      | Target date in `YYYY-MM-DD` format.                                        |
+| `numberOfShades` | `Integer` | yes      | Number of heatmap shades (minimum **3**, maximum **10**).                  |
+| `startHour`      | `Integer` | no       | Start hour for the range (0–23). Defaults to `0` if omitted.               |
+| `endHour`        | `Integer` | no       | End hour for the range (0–23, must be ≥ `startHour`). Defaults to `23`.    |
 
 **Response**
 
