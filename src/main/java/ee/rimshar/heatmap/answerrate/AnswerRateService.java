@@ -1,7 +1,7 @@
 package ee.rimshar.heatmap.answerrate;
 
-import static ee.rimshar.heatmap.answerrate.AnswerRateQueries.ANSWER_RATE_SEARCH_QUERY;
 import ee.rimshar.heatmap.answerrate.api.AnswerRate;
+import ee.rimshar.heatmap.answerrate.queries.AnswerRateQueryService;
 import jakarta.validation.ConstraintViolationException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class AnswerRateService {
 
   private final JdbcTemplate jdbcTemplate;
+  private final AnswerRateQueryService queryService;
 
   public List<AnswerRate> getAnswerRateData(
       String dateInput,
@@ -23,14 +24,14 @@ public class AnswerRateService {
     validateDateRange(startHour, endHour);
 
     return jdbcTemplate.query(
-        ANSWER_RATE_SEARCH_QUERY,
-        new Object[] {dateInput, startHour, endHour},
+        queryService.getAnswerRateSearchQuery(),
         (results, rowNum) -> buildAnswerRate(
             results.getInt("callHour"),
             results.getInt("answeredCalls"),
             results.getInt("totalCalls"),
             numberOfShades
-        )
+        ),
+        dateInput, startHour, endHour
     );
   }
 
@@ -39,7 +40,7 @@ public class AnswerRateService {
       throw new ConstraintViolationException("endHour: must be less or equal to startHour", null);
     }
   }
-  
+
   private AnswerRate buildAnswerRate(int hour, int answeredCallCount, int totalCallCount, int numberOfShades) {
     float answeredCallRate = totalCallCount > 0 ? (answeredCallCount * 100f / totalCallCount) : 0;
     String shade = computeShade(answeredCallRate, numberOfShades);
