@@ -7,14 +7,15 @@ This application exposes an endpoint providing answer rate info based on call lo
 [JDK 17](https://jdk.java.net/17/)
 
 ## Running instructions
-Copy the project locally and run `./gradlew bootRun` in the command line to start the application.
+Copy the project locally and run `./gradlew bootRun` in the command line to start the application on `localhost:8080`.
+Use `./gradlew test` to run tests.
 
 The application has an in-built database that contains 900 entries from the period of 04-04-2025 to 07-04-2027.
 
 The application is secured via HTTP Basic Authentication. Use the pre-configured user `test_user / superMegaSecurePassword`
 
 ## Endpoints
-### Heatmap Statistics Endpoint `/api/heatmap/answer-rate`
+### Answer Rate Heatmap Endpoint `/api/heatmap/answer-rate`
 Returns hourly call statistics for a given date and time range, formatted for use in a heatmap.
 
 **Request Parameters**
@@ -31,16 +32,18 @@ Returns hourly call statistics for a given date and time range, formatted for us
 Returns a JSON array of objects, one for each hour in the range `[startHour, endHour]`.
 
 ```json
-{
-  "hour": 14,
-  "answeredCalls": 8,
-  "totalCalls": 10,
-  "rate": 80.0,
-  "shade": "Shade4"
-}
+[
+  {
+    "hour": 14,
+    "answeredCalls": 8,
+    "totalCalls": 10,
+    "rate": 80.0,
+    "shade": "Shade4"
+  }
+]
 ```
 
-**Shade Mapping Example**
+**Shade Mapping Example for numberOfShades = 5**
 
 | Rate (%)         | Shade   |
 |------------------|---------|

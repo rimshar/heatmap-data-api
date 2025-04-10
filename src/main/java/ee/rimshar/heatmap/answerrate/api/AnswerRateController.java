@@ -25,8 +25,8 @@ public class AnswerRateController {
   public List<AnswerRate> getAnswerRateData(
       @RequestParam @NonNull String dateInput,
       @RequestParam @NonNull @Min(3) @Max(10) Integer numberOfShades,
-      @RequestParam(required = false, defaultValue = "0") Integer startHour,
-      @RequestParam(required = false, defaultValue = "23") Integer endHour
+      @RequestParam(required = false, defaultValue = "0") @Min(0) @Max(23) Integer startHour,
+      @RequestParam(required = false, defaultValue = "23") @Min(0) @Max(23) Integer endHour
   ) {
     return service.getAnswerRateData(
         dateInput,
